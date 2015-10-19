@@ -1,5 +1,12 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import barqsoft.footballscores.service.MyFetchService;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -83,5 +90,18 @@ public class Utilies
             case "Stoke City FC" : return R.drawable.stoke_city;
             default: return R.drawable.no_icon;
         }
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        return info != null || info.isConnectedOrConnecting();
+    }
+
+    @SuppressWarnings("ResourceType")
+    public static @MyFetchService.ServerStatus int getServerStatus(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(context.getString(R.string.shared_prefs), context.MODE_PRIVATE);
+        return prefs.getInt(context.getString(R.string.pref_server_status), MyFetchService.SERVER_UNKNOWN);
+
     }
 }

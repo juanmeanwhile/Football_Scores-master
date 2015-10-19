@@ -6,6 +6,9 @@
         android:name="android.permission.INTERNET"
         android:maxSdkVersion="22" />
 
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -33,7 +36,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="barqsoft.footballscores.MainActivity" />
         </activity>
-        <service android:name=".service.myFetchService" />
+        <service android:name=".service.MyFetchService" />
     </application>
 
 </manifest>
