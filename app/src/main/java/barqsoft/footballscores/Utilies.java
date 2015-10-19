@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import barqsoft.footballscores.service.MyFetchService;
+import barqsoft.footballscores.service.myFetchService;
 
 /**
  * Created by yehya khaled on 3/3/2015.
@@ -99,9 +99,9 @@ public class Utilies
     }
 
     @SuppressWarnings("ResourceType")
-    public static @MyFetchService.ServerStatus int getServerStatus(Context context){
+    public static @myFetchService.ServerStatus int getServerStatus(Context context){
         SharedPreferences prefs = context.getSharedPreferences(context.getString(R.string.shared_prefs), context.MODE_PRIVATE);
-        return prefs.getInt(context.getString(R.string.pref_server_status), MyFetchService.SERVER_UNKNOWN);
+        return prefs.getInt(context.getString(R.string.pref_server_status), myFetchService.SERVER_UNKNOWN);
 
     }
 }

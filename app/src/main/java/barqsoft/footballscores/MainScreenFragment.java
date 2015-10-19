@@ -1,7 +1,6 @@
 package barqsoft.footballscores;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import barqsoft.footballscores.service.MyFetchService;
+import barqsoft.footballscores.service.myFetchService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,7 +57,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
     private void updateScores() {
-        Intent service_start = new Intent(getActivity(), MyFetchService.class);
+        Intent service_start = new Intent(getActivity(), myFetchService.class);
         getActivity().startService(service_start);
     }
 
@@ -163,11 +162,11 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     private void updateInfoLabel() {
         int message = R.string.info_empty_results;
         switch (Utilies.getServerStatus(getActivity())) {
-            case MyFetchService.SERVER_INVALID:
+            case myFetchService.SERVER_INVALID:
                 message = R.string.info_error_update;
                 break;
 
-            case MyFetchService.SERVER_DOWN:
+            case myFetchService.SERVER_DOWN:
                 message = R.string.info_error_sever_down;
                 break;
 
