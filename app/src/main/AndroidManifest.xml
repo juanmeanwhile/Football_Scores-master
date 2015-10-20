@@ -28,6 +28,15 @@
             android:name=".ScoresProvider"
             android:authorities="barqsoft.footballscores" />
 
+        <receiver android:name=".widget.MatchesAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="barqsoft.footballscores.results_ready" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/matches_appwidget_info" />
+        </receiver>
+
         <activity
             android:name=".AboutActivity"
             android:label="About"
