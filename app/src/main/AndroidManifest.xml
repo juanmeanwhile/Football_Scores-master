@@ -4,7 +4,8 @@
 
     <uses-permission
         android:name="android.permission.INTERNET"
-        android:maxSdkVersion="22" />
+        android:maxSdkVersion="22"
+        />
 
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -46,6 +47,9 @@
                 android:value="barqsoft.footballscores.MainActivity" />
         </activity>
         <service android:name=".service.myFetchService" />
+
+        <service android:name=".service.AppWidgetService"
+        android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

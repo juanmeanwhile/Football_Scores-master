@@ -4,36 +4,48 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.ScoresProvider;
 
 /**
  * Created by Juan on 20/10/2015.
  */
-public class AppWidgetService implements
-    RemoteViewsService.RemoteViewsFactory {
-    private static final int mCount = 10;
+public class AppWidgetService extends RemoteViewsService {
+    @Override
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        return new MatchesRemoteViewsFactory(this.getApplicationContext(), intent);
+    }
+}
+
+class MatchesRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+    private static final String TAG = "StackRemoteViewsFactory";
     private Context mContext;
     private int mAppWidgetId;
+    private Cursor mCursor;
 
-    public AppWidgetService(Context context, Intent intent) {
+    public MatchesRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     public void onCreate() {
-        // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
-        // for example downloading or creating content etc, should be deferred to onDataSetChanged()
-        // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
+        Log.d(TAG, "onCreate()");
+        Date fragmentdate = new Date(System.currentTimeMillis());
+        SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateSt = (mformat.format(fragmentdate));
 
-
+        mCursor = mContext.getContentResolver().query(DatabaseContract.scores_table.buildScoreWithDate(), null, null, new String[]{dateSt}, null);
     }
 
     @Override
@@ -43,21 +55,27 @@ public class AppWidgetService implements
 
     @Override
     public void onDestroy() {
-
+        mCursor.close();
     }
 
     @Override
     public int getCount() {
-        return 0;
+        Log.d(TAG, "getCount()");
+        return mCursor.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
+        Log.d(TAG, "getView():" + position);
 
-        // Construct a remote views item based on the app widget item XML file,
-        // and set the text based on the position.
+        mCursor.moveToPosition(position);
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);
-        rv.setTextViewText(R.id.widget_item, mWidgetItems.get(position).text);
+        String home = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.scores_table.HOME_COL));
+        String away = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.scores_table.AWAY_COL));
+        int homeGoals = mCursor.getInt(mCursor.getColumnIndex(DatabaseContract.scores_table.HOME_GOALS_COL));
+        int awayGoals = mCursor.getInt(mCursor.getColumnIndex(DatabaseContract.scores_table.AWAY_GOALS_COL));
+
+        rv.setTextViewText(R.id.text, String.format("%s %d-%d %s", home, homeGoals, awayGoals, away));
 
         // Return the remote views object.
         return rv;
@@ -70,7 +88,7 @@ public class AppWidgetService implements
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
