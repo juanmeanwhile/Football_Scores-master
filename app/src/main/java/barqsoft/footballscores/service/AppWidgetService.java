@@ -60,13 +60,11 @@ class MatchesRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        Log.d(TAG, "getCount()");
         return mCursor.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
-        Log.d(TAG, "getView():" + position);
 
         mCursor.moveToPosition(position);
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);

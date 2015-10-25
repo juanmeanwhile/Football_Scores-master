@@ -11,7 +11,6 @@ import android.widget.RemoteViews;
 import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
 import barqsoft.footballscores.service.AppWidgetService;
-import barqsoft.footballscores.service.myFetchService;
 
 /**
  * Created by Juan on 20/10/2015.
@@ -41,11 +40,7 @@ public class MatchesAppWidgetProvider  extends AppWidgetProvider {
 
             rv.setRemoteAdapter(R.id.list, intent);
 
-
             rv.setEmptyView(R.id.list, R.id.empty);
-
-//            Intent service_start = new Intent(context, myFetchService.class);
-//            context.startService(service_start);
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }

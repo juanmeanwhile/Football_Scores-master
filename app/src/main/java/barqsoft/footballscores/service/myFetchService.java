@@ -34,7 +34,7 @@ import barqsoft.footballscores.R;
 /**
  * Created by yehya khaled on 3/2/2015.
  */
-public class myFetchService extends IntentService {
+public class MyFetchService extends IntentService {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({SERVER_OK, SERVER_DOWN, SERVER_INVALID, SERVER_UNKNOWN})
     public @interface ServerStatus {}
@@ -45,7 +45,7 @@ public class myFetchService extends IntentService {
     public static final int SERVER_UNKNOWN = 3;
 
     public static final String LOG_TAG = "myFetchService";
-    public myFetchService()
+    public MyFetchService()
     {
         super("myFetchService");
     }
